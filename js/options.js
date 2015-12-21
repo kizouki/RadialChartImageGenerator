@@ -27,6 +27,9 @@ $(function($) {
       lineStyle = $(arcInputs[j]).attr('data-linecap');
       shadow = $(arcInputs[j]).attr('data-shadow');
       shadowColor = $(arcInputs[j]).attr('data-shadowColor');
+      angleOffset = Number($(arcInputs[j]).attr('data-angleOffset'));
+      angleArc = Number($(arcInputs[j]).attr('data-angleArc'));
+
 
       data = {
         "Current Value" : val, 
@@ -37,6 +40,8 @@ $(function($) {
         "Background Color" : bgcolor,
         "Arc Thickness" : thickness,
         "Background Thickness" : bgthickness,
+        "Angle Offset": angleOffset,
+        "Angle Arc": angleArc,
         "Size": width,
         "Y Position": ypos,
         "X Position": xpos

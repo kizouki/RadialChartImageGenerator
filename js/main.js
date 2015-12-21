@@ -253,6 +253,12 @@ function changeArc(arcId, dataChange, value, doNotLog) {
         $(arcId).attr('data-linecap', value);
     } else if(dataChange === 'shadow-color') {
         $(arcId).attr('data-shadowColor', value);
+    } else if(dataChange === 'angle-offset') {
+        obj = {"angleOffset": value};
+        $(arcId).attr('data-angleOffset', value);
+    } else if(dataChange === 'angle-arc') {
+        obj = {"angleArc": value};
+        $(arcId).attr('data-angleArc', value);
     } else if(dataChange === 'text-color') {
         obj = {"inputColor":value};
         $('.knob').css('color', value);

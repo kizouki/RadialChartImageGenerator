@@ -766,7 +766,7 @@
             gradient.addColorStop("0",this.o.bgColor);
             gradient.addColorStop("1.0",this.o.bgColorMid);
             c.strokeStyle = gradient;
-            c.arc(this.xy, this.xy, this.bgradius, (this.PI2/4) - 0.00001, this.startAngle + 0.00001, true);
+            c.arc(this.xy, this.xy, this.bgradius, this.endAngle - 0.00001, (this.startAngle + this.endAngle)/2 + 0.00001, true);
             // if background width == 0 then don't draw it. Default is to draw a small line
             if (this.bglineWidth != 0.00) {
                 c.stroke();
@@ -777,7 +777,7 @@
             gradient.addColorStop("0",this.o.bgColorEnd);
             gradient.addColorStop("1.0",this.o.bgColorMid);
             c.strokeStyle = gradient;
-            c.arc(this.xy, this.xy, this.bgradius, this.startAngle - 0.00001, (this.PI2/4) + 0.00010, true);
+            c.arc(this.xy, this.xy, this.bgradius, (this.startAngle + this.endAngle)/2 - 0.00001, this.startAngle + 0.00010, true);
              
             // if bgLineWidth == 0 then skip drawing background arc
             if (this.bglineWidth != 0.00) {
@@ -793,29 +793,38 @@
                 r = (this.cv == this.v);
             }
             if(this.cv > (this.o.min + this.o.max)/2){
-                c.beginPath();
-                var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
-                    gradient.addColorStop("0",this.o.fgColor);
-                    gradient.addColorStop("0.5",this.o.fgColor);
-                    gradient.addColorStop("1.0",this.o.fgColorMid);
-                c.strokeStyle = r ? gradient : this.fgColor ;
-                c.arc(this.xy, this.xy, this.radius,  a.s, (this.PI2/4) - 0.00001, a.d);
-                c.stroke();
-                c.beginPath();
-                var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
-                    gradient.addColorStop("0",this.o.fgColorEnd);
-                    gradient.addColorStop("0.5",this.o.fgColorEnd);
-                    gradient.addColorStop("1.0",this.o.fgColorMid);
-                c.strokeStyle = r ? gradient : this.fgColor ;
-                c.arc(this.xy, this.xy, this.radius, this.PI2 * 1.25, a.e, a.d);
-
-                
-                c.stroke();
+		if (this.angleOffset == 0){
+	                c.beginPath();
+	                var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
+	                    gradient.addColorStop("0",this.o.fgColor);
+	                    gradient.addColorStop("0.5",this.o.fgColor);
+	                    gradient.addColorStop("1.0",this.o.fgColorMid);
+	                c.strokeStyle = r ? gradient : this.fgColor ;
+	                c.arc(this.xy, this.xy, this.radius,  a.s, (a.s + this.endAngle)/2 - 0.00001, a.d);
+	                c.stroke();
+	                c.beginPath();
+	                var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
+	                    gradient.addColorStop("0",this.o.fgColorEnd);
+	                    gradient.addColorStop("0.5",this.o.fgColorEnd);
+	                    gradient.addColorStop("1.0",this.o.fgColorMid);
+	                c.strokeStyle = r ? gradient : this.fgColor ;
+	                c.arc(this.xy, this.xy, this.radius, (a.s + this.endAngle)/2, a.e, a.d);
+	                c.stroke();
+		} else {
+	                c.beginPath();
+	                var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
+	                    gradient.addColorStop("0",this.o.fgColor);
+	                    gradient.addColorStop("0.5",this.o.fgColorMid);
+	                    gradient.addColorStop("1.0",this.o.fgColorEnd);
+	                c.strokeStyle = r ? gradient : this.fgColor ;
+	                c.arc(this.xy, this.xy, this.radius,  a.s, a.e - 0.00001, a.d);
+	                c.stroke();
+		}
                 
                 var showShadow = $('#'+this.$[0].id).attr('data-shadow');
                 var shadowColor = $('#'+this.$[0].id).attr('data-shadowColor') || $('#'+this.$[0].id).attr('shadow-color');
                 if(showShadow === 'true') {
-                    if(this.cv == this.o.max){
+                    if(this.cv == this.o.max && this.angleOffset == 0){
                         c.beginPath();
                         var gradient=c.createLinearGradient(this.w2,0,this.w2,this.h-this.lineWidth);
                             gradient.addColorStop("0",this.o.fgColorEnd);
@@ -829,7 +838,7 @@
                         c.shadowBlur    = 10;
                         c.shadowOffsetX = 10; 
                         c.shadowOffsetY = 0;
-                        c.arc(this.xy, this.xy, this.radius, this.PI2 * 1.74, a.e, a.d);
+                        c.arc(this.xy, this.xy, this.radius, a.e*0.99, a.e, a.d);
 
                         c.stroke();
                     }
